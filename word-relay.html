@@ -16,6 +16,7 @@
       const $button = document.querySelector("button");
       const $input = document.querySelector("input");
       const $word = document.querySelector("#word");
+      const $order = document.querySelector("#order");
       let word; // 제시어
       let newWord; // 새로 입력한 단어
 
@@ -33,6 +34,7 @@
           } else {
             $order.textContent = order + 1;
           }
+          $input.focus();
         } else {
           // 제시어가 있는 경우
           if (word[word.length - 1] == newWord[0]) {
@@ -47,8 +49,10 @@
             } else {
               $order.textContent = order + 1;
             }
+            $input.focus();
           } else {
             // 올바르지 않은가?
+            alert("올바르지 않은 단어!");
           }
         }
       };
