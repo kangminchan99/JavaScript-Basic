@@ -10,21 +10,43 @@
     <div>제시어: <span id="word"></span></div>
     <input type="text" />
     <button>save</button>
-    <button class="btn">btn2</button>
-    <button class="btn">btn3</button>
     <script>
-      const number = parseInt(prompt("몇 명이 참가하나요?"), 10);
-      alert(number);
-      const choice = confirm("맞나요?");
+      // const number = parseInt(prompt("몇 명이 참가하나요?"), 10);
+      const number = Number(prompt("몇 명이 참가하나요?"));
+      const $button = document.querySelector("button");
+      const $input = document.querySelector("input");
+      const $word = document.querySelector("#word");
+      let word; // 제시어
+      let newWord; // 새로 입력한 단어
 
-      document.querySelector("input").addEventListener("input", (event) => {
-        console.log("text input", event.target.value);
-      });
-
-      const onClick = function () {
-        console.log("btn click");
+      const onClickButton = () => {
+        if (!word) {
+          // 제시어가 비어있는 경우
+          word = newWord; // 입력한 단어가 제시어가 된다.
+          $word.textContent = word;
+          $input.value = "";
+        } else {
+          // 제시어가 있는 경우
+        }
       };
-      document.querySelector("button").addEventListener("click", onClick);
+      const onInput = (event) => {
+        newWord = event.target.value;
+      };
+
+      $button.addEventListener("click", onClickButton);
+      $input.addEventListener("input", onInput);
+
+      // alert(number);
+      // const choice = confirm("맞나요?");
+
+      // document.querySelector("input").addEventListener("input", (event) => {
+      //   console.log("text input", event.target.value);
+      // });
+
+      // const onClick = function () {
+      //   console.log("btn click");
+      // };
+      // document.querySelector("button").addEventListener("click", onClick);
 
       // // #span: id가 span인 것을 찾는다.
       // document.querySelector("#span");
