@@ -10,10 +10,26 @@
     <div>제시어: <span id="word"></span></div>
     <input type="text" />
     <button>save</button>
+    <button class="btn">btn2</button>
+    <button class="btn">btn3</button>
     <script>
       const number = parseInt(prompt("몇 명이 참가하나요?"), 10);
       alert(number);
       const choice = confirm("맞나요?");
+
+      document.querySelector("input").addEventListener("input", (event) => {
+        console.log("text input", event.target.value);
+      });
+
+      const onClick = function () {
+        console.log("btn click");
+      };
+      document.querySelector("button").addEventListener("click", onClick);
+
+      // // #span: id가 span인 것을 찾는다.
+      // document.querySelector("#span");
+      // // .btn: class가 btn인 태그를 찾는다.
+      // document.querySelector(".btn");
     </script>
   </body>
 </html>
