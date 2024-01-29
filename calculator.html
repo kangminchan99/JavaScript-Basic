@@ -67,11 +67,17 @@
     const $result = document.querySelector("#result");
 
     const onClickNumber = (event) => {
-      if (operator) {
-        numTwo += event.target.textContent;
-      } else {
+      if (!operator) {
+        // 비어 있다.
         numOne += event.target.textContent;
+        $result.value += event.target.textContent;
+        return;
       }
+      // 비어있지 않다.
+      if (!numTwo) {
+        $result.value = "";
+      }
+      numTwo += event.target.textContent;
       $result.value += event.target.textContent;
     };
     // // 고차함수 - 함수가 함수를 리턴
