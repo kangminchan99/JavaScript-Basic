@@ -48,8 +48,27 @@
       event.preventDefault(); // 기본 동작 막기
       const value = $input.value;
       $input.value = "";
+      if (!checkInput(value)) {
+        return;
+      }
       if (checkInput(value)) {
-      } else {
+        if (answer.join("") === value) {
+          // join("") - 배열을 문자열로 바꾸고 작은 따옴표를 없애준다. [3, 1, 4, 6 ] ->'3146'
+          // split('') : '3146' -> ['3' , '1', '4', '6']
+          // split('1') : '3146' -> ['3' ,'46']
+          $logs.textContent = "homerun!";
+          return;
+        }
+
+        if (tries.length >= 9) {
+          const message = document.createTextNode(
+            `패배! 정답은 ${answer.join("")}`
+          );
+          $logs.appendChild(message);
+          return;
+        }
+
+        tries.push(value);
       }
     });
   </script>
