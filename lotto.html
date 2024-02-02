@@ -22,5 +22,21 @@
     <div id="result">추첨 결과는?</div>
     <div id="bonus">보너스:</div>
   </body>
-  <script></script>
+  <script>
+    const candidate = Array(45)
+      .fill()
+      .map((v, i) => i + 1);
+    const shuffle = [];
+    while (candidate.length > 0) {
+      const random = Math.floor(Math.random() * candidate.length); // 무작위 인덱스 뽑기
+      // const array = [1,2,3,4,5] ->  array.splice(2,2) -> [3,4] return
+      const spliceArray = candidate.splice(random, 1); // 뽑은 값은 배열에 들어 있음
+      const value = spliceArray[0]; // 배열에 있는 값을 꺼내어
+      shuffle.push(value); // shuffle 배열에 넣기
+    }
+    console.log(shuffle);
+    const winBalls = shuffle.slice(0, 6).sort((a, b) => a - b);
+    const bonus = shuffle[6];
+    console.log(winBalls, bonus);
+  </script>
 </html>
