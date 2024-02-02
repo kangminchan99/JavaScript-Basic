@@ -35,6 +35,8 @@
       shuffle.push(value); // shuffle 배열에 넣기
     }
     console.log(shuffle);
+    // a - b -> 오름차순
+    // b - a -> 내림차순
     const winBalls = shuffle.slice(0, 6).sort((a, b) => a - b);
     const bonus = shuffle[6];
     console.log(winBalls, bonus);
