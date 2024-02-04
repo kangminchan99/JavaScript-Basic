@@ -28,6 +28,28 @@
       const IMG_URL = "./rsp.png";
       $computer.style.background = `url(${IMG_URL}) 0 0`;
       $computer.style.backgroundSize = `auto 200px`;
+
+      const rspX = {
+        scissors: "0",
+        rock: "-220px",
+        paper: "-440px",
+      };
+      let computerChoice = "scissors";
+      const computerChangeHand = () => {
+        if (computerChoice === "scissors") {
+          // 가위
+          computerChoice = "rock";
+        } else if (computerChoice === "rock") {
+          // 바위
+          computerChoice = "paper";
+        } else {
+          // 보
+          computerChoice = "scissors";
+        }
+        $computer.style.background = `url(${IMG_URL}) ${rspX[computerChoice]} 0`;
+        $computer.style.backgroundSize = `auto 200px`;
+      };
+      setInterval(computerChangeHand, 50);
     </script>
   </body>
 </html>
