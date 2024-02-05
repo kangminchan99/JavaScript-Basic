@@ -34,6 +34,7 @@
 
     let startTime;
     let endTime;
+    const records = [];
 
     // $screen.className; // waiting
     $screen.addEventListener("click", (event) => {
@@ -52,7 +53,14 @@
       } else if (event.target.classList.contains("now")) {
         // 끝시간 재고 시간차이 저장
         endTime = new Date();
-        $result.textContent = `${endTime - startTime}ms`;
+        const current = endTime - startTime;
+        records.push(current);
+        // 평균 구하기
+        const avg = records.reduce((a, c) => a + c) / records.length;
+        $result.textContent = `현재${current}ms, 평균${avg}ms`;
+        startTime = null;
+        endTime = null;
+        endTime = new Date();
         $screen.classList.remove("now");
         $screen.classList.add("waiting");
         $screen.textContent = "클릭해서 시작!!";
