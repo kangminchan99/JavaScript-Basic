@@ -38,5 +38,23 @@
   <script>
     const $screen = document.querySelector("#screen");
     const $result = document.querySelector("#result");
+
+    // $screen.className; // waiting
+    $screen.addEventListener("click", (event) => {
+      if (event.target.classList.contains("waiting")) {
+        $screen.classList.remove("waiting");
+        $screen.classList.add("ready");
+        $screen.textContent = "초록색이 되면 클릭!!";
+        setTimeout(function () {
+          $screen.classList.remove("ready");
+          $screen.classList.add("now");
+          $screen.textContent = "클릭 하세요!!";
+          // 시간재기
+        }, Math.floor(Math.random() * 1000) + 2000); // 2초에서 3초 사이 랜덤;
+      } else if (event.target.classList.contains("ready")) {
+      } else if (event.target.classList.contains("now")) {
+        // 끝시간 재고 시간차이 저장
+      }
+    });
   </script>
 </html>
