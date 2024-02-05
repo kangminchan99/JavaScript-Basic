@@ -6,15 +6,8 @@
     <title>반응속도 테스트</title>
     <style>
       #screen {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        user-select: none;
+        width: 300px;
+        height: 300px;
       }
 
       #screen.waiting {
@@ -39,6 +32,9 @@
     const $screen = document.querySelector("#screen");
     const $result = document.querySelector("#result");
 
+    let startTime;
+    let endTime;
+
     // $screen.className; // waiting
     $screen.addEventListener("click", (event) => {
       if (event.target.classList.contains("waiting")) {
@@ -46,6 +42,7 @@
         $screen.classList.add("ready");
         $screen.textContent = "초록색이 되면 클릭!!";
         setTimeout(function () {
+          startTime = new Date();
           $screen.classList.remove("ready");
           $screen.classList.add("now");
           $screen.textContent = "클릭 하세요!!";
@@ -54,6 +51,11 @@
       } else if (event.target.classList.contains("ready")) {
       } else if (event.target.classList.contains("now")) {
         // 끝시간 재고 시간차이 저장
+        endTime = new Date();
+        $result.textContent = `${endTime - startTime}ms`;
+        $screen.classList.remove("now");
+        $screen.classList.add("waiting");
+        $screen.textContent = "클릭해서 시작!!";
       }
     });
   </script>
