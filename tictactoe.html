@@ -36,16 +36,21 @@
       </tr>
     </table> -->
     <script>
-      let turn = "O";
-      const data = [];
-      for (let i = 0; i < 3; i++) {
-        data.push([]);
-      }
+      //   const one = arr[0];
+      //   const two = arr[2];
+      //   const five = arr[5];
+      //   const [one, two, , ,five] = arr;
+      const { body } = document;
       const $table = document.createElement("table");
+      const $result = document.createElement("div");
+      let turn = "O";
+      const rows = [];
       for (let i = 0; i < 3; i++) {
         const $tr = document.createElement("tr");
-        for (let i = 0; i < 3; i++) {
+        const cells = [];
+        for (let j = 0; j < 3; j++) {
           const $td = document.createElement("td");
+          cells.push($td);
           $td.addEventListener("click", (event) => {
             if (event.target.textContent) return;
             event.target.textContent = turn;
@@ -57,9 +62,11 @@
           });
           $tr.append($td);
         }
+        rows.push(cells);
         $table.append($tr);
       }
       document.body.append($table);
+      document.body.append($result);
     </script>
   </body>
 </html>
