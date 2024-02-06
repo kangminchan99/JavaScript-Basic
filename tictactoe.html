@@ -45,21 +45,29 @@
       const $result = document.createElement("div");
       let turn = "O";
       const rows = [];
+
+      const callback = (event) => {
+        if (event.target.textContent !== "") {
+          console.log("빈칸 x");
+          return;
+        }
+        console.log("빈칸 o");
+        event.target.textContent = turn;
+        turn = turn === "X" ? "O" : "X";
+        // if (turn === "O") {
+        //   turn = "X";
+        // } else if (turn === "X") {
+        //   turn = "O";
+        // }
+      };
+
       for (let i = 0; i < 3; i++) {
         const $tr = document.createElement("tr");
         const cells = [];
         for (let j = 0; j < 3; j++) {
           const $td = document.createElement("td");
           cells.push($td);
-          $td.addEventListener("click", (event) => {
-            if (event.target.textContent) return;
-            event.target.textContent = turn;
-            if (turn === "O") {
-              turn = "X";
-            } else if (turn === "X") {
-              turn = "O";
-            }
-          });
+          $td.addEventListener("click", event, callback);
           $tr.append($td);
         }
         rows.push(cells);
