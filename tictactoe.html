@@ -36,11 +36,30 @@
       </tr>
     </table> -->
     <script>
+      let turn = "O";
       const data = [];
       for (let i = 0; i < 3; i++) {
         data.push([]);
       }
-      document.body.append(document.createElement("table"));
+      const $table = document.createElement("table");
+      for (let i = 0; i < 3; i++) {
+        const $tr = document.createElement("tr");
+        for (let i = 0; i < 3; i++) {
+          const $td = document.createElement("td");
+          $td.addEventListener("click", (event) => {
+            if (event.target.textContent) return;
+            event.target.textContent = turn;
+            if (turn === "O") {
+              turn = "X";
+            } else if (turn === "X") {
+              turn = "O";
+            }
+          });
+          $tr.append($td);
+        }
+        $table.append($tr);
+      }
+      document.body.append($table);
     </script>
   </body>
 </html>
