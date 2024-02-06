@@ -47,16 +47,16 @@
       const rows = [];
 
       const checkWinner = (target) => {
-        let rowIndex;
-        let cellIndex;
-        rows.forEach((row, ri) => {
-          row.forEach((cell, ci) => {
-            if (cell == target) {
-              rowIndex = ri;
-              cellIndex = ci;
-            }
-          });
-        });
+        let rowIndex = target.parentNode.rowIndex;
+        let cellIndex = target.cellIndex;
+        // rows.forEach((row, ri) => {
+        //   row.forEach((cell, ci) => {
+        //     if (cell == target) {
+        //       rowIndex = ri;
+        //       cellIndex = ci;
+        //     }
+        //   });
+        // });
         let hasWinner = false;
 
         if (
@@ -99,20 +99,21 @@
         }
         console.log("빈칸 o");
         event.target.textContent = turn;
-        if (checkWinner(event.target)) {
+        const hasWinner = checkWinner(event.target);
+        if (hasWinner) {
           $result.textContent = `${turn}님의 승리!!`;
           $table.removeEventListener("click", callback);
           return;
         }
-        let draw = true;
-        rows.forEach((row) => {
-          // 수정된 부분
-          row.forEach((cell) => {
-            if (!cell.textContent) {
-              draw = false;
-            }
-          });
-        });
+        const draw = rows.flat().every((cell) => cell.textContent);
+        // rows.forEach((row) => {
+        //   // 수정된 부분
+        //   row.forEach((cell) => {
+        //     if (!cell.textContent) {
+        //       draw = false;
+        //     }
+        //   });
+        // });
         if (draw) {
           $result.textContent = `무승부!!`;
           return;
