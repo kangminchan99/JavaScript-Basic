@@ -115,7 +115,11 @@
         turn = turn === "X" ? "O" : "X";
       };
 
+      let clickable = true;
       const callback = (event) => {
+        if (!clickable) {
+          return;
+        }
         if (event.target.textContent !== "") {
           console.log("빈칸 x");
           return;
@@ -124,11 +128,15 @@
         event.target.textContent = turn;
         checkWinnerAndDraw(event.target);
         if (turn === "X") {
-          const emptyCells = rows.flat().filter((v) => !v.textContent);
-          const randomCell =
-            emptyCells[Math.floor(Math.random() * emptyCells.length)];
-          randomCell.textContent = "X";
-          checkWinnerAndDraw(event.target);
+          clickable = false;
+          setTimeout(() => {
+            const emptyCells = rows.flat().filter((v) => !v.textContent);
+            const randomCell =
+              emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            randomCell.textContent = "X";
+            checkWinnerAndDraw(event.target);
+            clickable = true;
+          }, 1000);
         }
       };
 
