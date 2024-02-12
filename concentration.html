@@ -47,18 +47,31 @@
     <div id="wrapper"></div>
     <script>
       const $wrapper = document.querySelector("#wrapper");
-      const total = 12;
-      const colors = ["red", "orange", "yellow", "green", "white", "pink"];
+      const total = parseInt(prompt("카드 개수를 짝수로 입력(최대20)"));
+      const colors = [
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "white",
+        "pink",
+        "cyan",
+        "violet",
+        "gray",
+        "black",
+      ];
       let colorCopy = colors.concat(colors);
       let shuffled = [];
       let clicked = [];
       let completed = [];
       let clickable = false;
+      let startTime;
 
       function shuffle() {
-        for (let i = 0; colorCopy.length > 0; i += 1) {
+        while (colorCopy.length > 0) {
           const randomIndex = Math.floor(Math.random() * colorCopy.length);
-          shuffled = shuffled.concat(colorCopy.splice(randomIndex, 1));
+          shuffled.push(colorCopy[randomIndex]);
+          colorCopy.splice(randomIndex, 1);
         }
       }
 
@@ -98,17 +111,21 @@
           if (completed.length !== total) {
             return;
           }
+          const endTime = new Date();
           setTimeout(() => {
-            alert("축하합니다!!");
+            alert(
+              `축하합니다!! ${(endTime - startTime) / 1000}초 걸렸습니다. `
+            );
             resetGame();
           }, 1000);
           return;
         }
-
+        clickable = false;
         setTimeout(() => {
           clicked[0].classList.remove("flipped");
           clicked[1].classList.remove("flipped");
           clicked = [];
+          clickable = true;
         }, 500);
       }
 
@@ -131,14 +148,13 @@
             card.classList.remove("flipped");
           });
           clickable = true;
+          startTime = new Date();
         }, 5000);
       }
       startGame();
 
       function resetGame() {
         $wrapper.innerHTML = "";
-        // 원본 바꾸는 애들: push, pop , unshift, shift, splice, sort
-
         colorCopy = colors.concat(colors);
         shuffled = [];
         completed = [];
