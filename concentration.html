@@ -53,6 +53,7 @@
       let shuffled = [];
       let clicked = [];
       let completed = [];
+      let clickable = false;
 
       function shuffle() {
         for (let i = 0; colorCopy.length > 0; i += 1) {
@@ -78,6 +79,9 @@
       }
 
       function onClickCard() {
+        if (!clickable || completed.includes(this) || clicked[0] === this) {
+          return;
+        }
         this.classList.toggle("flipped");
         clicked.push(this);
         if (clicked.length !== 2) {
@@ -91,17 +95,15 @@
           completed.push(clicked[0]);
           completed.push(clicked[1]);
           clicked = [];
-          // completed = completed.concat(clicked);
+          if (completed.length !== total) {
+            return;
+          }
+          setTimeout(() => {
+            alert("축하합니다!!");
+            resetGame();
+          }, 1000);
           return;
         }
-        clicked[0].classList.remove("flipped");
-        clicked[1].classList.remove("flipped");
-        clicked = [];
-        if (completed.length !== total) {
-          return;
-        }
-        alert("축하합니다!!");
-        return;
 
         setTimeout(() => {
           clicked[0].classList.remove("flipped");
@@ -111,7 +113,7 @@
       }
 
       function startGame() {
-        clicked = false;
+        clickable = false;
         shuffle();
         for (let i = 0; i < total; i += 1) {
           const card = createCard(i);
@@ -127,10 +129,21 @@
         setTimeout(() => {
           document.querySelectorAll(".card").forEach((card) => {
             card.classList.remove("flipped");
-          }, 5000);
-        });
+          });
+          clickable = true;
+        }, 5000);
       }
       startGame();
+
+      function resetGame() {
+        $wrapper.innerHTML = "";
+        // 원본 바꾸는 애들: push, pop , unshift, shift, splice, sort
+
+        colorCopy = colors.concat(colors);
+        shuffled = [];
+        completed = [];
+        startGame();
+      }
     </script>
   </body>
 </html>
