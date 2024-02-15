@@ -16,7 +16,7 @@
         height: 20px;
         background: #888;
       }
-      td.opend {
+      td.opened {
         background: white;
       }
       td.flag {
@@ -32,8 +32,10 @@
     <table id="table">
       <tbody></tbody>
     </table>
+    <div id="timer">0초</div>
     <div id="result"></div>
     <script>
+      const $timer = document.querySelector("#timer");
       const $tbody = document.querySelector("#table tbody");
       const $result = document.querySelector("#result");
       const row = 10; // 행
@@ -49,6 +51,12 @@
         OPENED: 0, // 0이상이면 다모두 열린칸
       };
       let data;
+      let openCount = 0;
+      let startTime = new Date();
+      const interval = setInterval(() => {
+        const time = Math.floor((new Date() - startTime) / 1000);
+        $timer.textContent = `${time}초`;
+      }, 1000);
       function plantMine() {
         const candidate = Array(row * cell)
           .fill()
@@ -127,14 +135,26 @@
       }
 
       function open(rowIndex, cellIndex) {
+        if (data[rowIndex][cellIndex] >= CODE.OPENED) return;
         const target = $tbody.children[rowIndex]?.children[cellIndex];
         if (!target) {
           return;
         }
         const count = countMine(rowIndex, cellIndex);
-        target.textContent = count || "";
+        target.textContent = count && "";
         target.className = "opened";
         data[rowIndex][cellIndex] = count;
+        openCount++;
+        if (openCount === row * cell - mine) {
+          const time = (new Date() - startTime) / 1000;
+          clearInterval(interval);
+          $tbody.removeEventListener("contextmenu", onRightClick);
+          $tbody.removeEventListener("click", onLeftClick);
+          setTimeout(() => {
+            alert(`win ${time}초가 걸렸습니다.`);
+          }, 500);
+          return count;
+        }
         return count;
       }
       function openAround(rI, cI) {
@@ -150,7 +170,7 @@
             openAround(rI + 1, cI);
             openAround(rI + 1, cI + 1);
           }
-        });
+        }, 0);
       }
       function onLeftClick(event) {
         const target = event.target;
