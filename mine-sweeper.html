@@ -17,7 +17,7 @@
         background: #888;
       }
       td.opened {
-        background: white;
+        background: blue;
       }
       td.flag {
         background: red;
@@ -29,18 +29,25 @@
   </head>
 
   <body>
+    <form id="form">
+      <input placeholder="가로 줄" id="row" size="5" />
+      <input placeholder="세로 줄" id="cell" size="5" />
+      <input placeholder="지뢰" id="mine" size="5" />
+      <button>생성</button>
+    </form>
     <table id="table">
       <tbody></tbody>
     </table>
     <div id="timer">0초</div>
     <div id="result"></div>
     <script>
+      const $form = document.querySelector("#form");
       const $timer = document.querySelector("#timer");
       const $tbody = document.querySelector("#table tbody");
       const $result = document.querySelector("#result");
-      const row = 10; // 행
-      const cell = 10; // 열
-      const mine = 10;
+      let row; // 행
+      let cell; // 열
+      let mine;
       const CODE = {
         NORMAL: -1,
         QUESTION: -2,
@@ -51,12 +58,27 @@
         OPENED: 0, // 0이상이면 다모두 열린칸
       };
       let data;
-      let openCount = 0;
-      let startTime = new Date();
-      const interval = setInterval(() => {
-        const time = Math.floor((new Date() - startTime) / 1000);
-        $timer.textContent = `${time}초`;
-      }, 1000);
+      let openCount;
+      let startTime;
+      let interval;
+
+      function onSubmit(event) {
+        event.preventDefault();
+        row = parseInt(event.target.row.value);
+        cell = parseInt(event.target.cell.value);
+        mine = parseInt(event.target.mine.value);
+        openCount = 0;
+        clearInterval(interval);
+        $tbody.innerHTML = "";
+        drawTable();
+        startTime = new Date();
+        interval = setInterval(() => {
+          const time = Math.floor((new Date() - startTime) / 1000);
+          $timer.textContent = `${time}초`;
+        }, 1000);
+      }
+      $form.addEventListener("submit", onSubmit);
+
       function plantMine() {
         const candidate = Array(row * cell)
           .fill()
@@ -105,7 +127,7 @@
         } else if (cellData === CODE.FLAG_MINE) {
           data[rowIndex][cellIndex] = CODE.MINE;
           target.className = "";
-          target.textContent = "X";
+          // target.textContent = "X";
         } else if (cellData === CODE.NORMAL) {
           data[rowIndex][cellIndex] = CODE.QUESTION;
           target.className = "question";
@@ -141,7 +163,7 @@
           return;
         }
         const count = countMine(rowIndex, cellIndex);
-        target.textContent = count && "";
+        target.textContent = count || "";
         target.className = "opened";
         data[rowIndex][cellIndex] = count;
         openCount++;
@@ -153,7 +175,6 @@
           setTimeout(() => {
             alert(`win ${time}초가 걸렸습니다.`);
           }, 500);
-          return count;
         }
         return count;
       }
@@ -195,7 +216,8 @@
           row.forEach((cell) => {
             const $td = document.createElement("td");
             if (cell === CODE.MINE) {
-              $td.textContent = "X";
+              // dev &&  $td.textContent = "X";
+              // $td.textContent = "";
             }
             $tr.append($td);
           });
@@ -204,7 +226,6 @@
           $tbody.addEventListener("click", onLeftClick);
         });
       }
-      drawTable();
     </script>
   </body>
 </html>
